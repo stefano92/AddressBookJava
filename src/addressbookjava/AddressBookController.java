@@ -23,6 +23,15 @@ public class AddressBookController {
         String status = addressBookModel.getContact(nickname);
         if(status.equals(String.valueOf(AddressBookModel.Status.ERROR_NOT_EXISTING_CONTACT)))
            addressBookGUI.contactNotFound();
-        System.out.println(status);
+        else
+            addressBookGUI.showContactInformation(status);
+    }
+    
+    public void addContact(String nickname, String data) {
+        AddressBookModel.Status status = addressBookModel.addContact(nickname, data);
+        if (status == AddressBookModel.Status.ERROR_ALREADY_EXISTING_CONTACT)
+            addressBookGUI.alreadyExistingContact();
+        else
+            addressBookGUI.contactCorrecltyAdded();
     }
 }

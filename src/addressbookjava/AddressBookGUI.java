@@ -22,37 +22,42 @@ public class AddressBookGUI extends JFrame{
     private JButton deleteContactButton;
     private JButton addContact;
     private JButton searchContact;
+    private JButton deleteContact;
+    private JTextField instructionsField;
+    private JTextField contactName;
 
     public JButton getSearchContact() {
-        return searchContact;
+        return this.searchContact;
     }
 
     public JButton getDeleteContact() {
-        return deleteContact;
+        return this.deleteContact;
     }
 
     public JTextField getInstructionsField() {
-        return instructionsField;
+        return this.instructionsField;
     }
     
     public JButton getAddContactButton(){
-        return addContactButton;
+        return this.addContactButton;
     }
     
     public JButton getSearchContactButton(){
-        return searchContactButton;
+        return this.searchContactButton;
     }
     
     public JButton getDeleteContactButton(){
-        return deleteContactButton;
+        return this.deleteContactButton;
     }
     
     public JButton getAddContact(){
-        return addContact;
+        return this.addContact;
     }
     
-    private JButton deleteContact;
-    private JTextField instructionsField;
+    public JTextField getContactName(){
+        return this.contactName;
+    }
+    
     private Handlers handlersDispatcher = new Handlers(this);
     
     public AddressBookGUI(){
@@ -62,6 +67,10 @@ public class AddressBookGUI extends JFrame{
         instructionsField = new JTextField("Instructions");
         instructionsField.setVisible(false);
         add(instructionsField);
+        
+        contactName = new JTextField("Write here the contact information");
+        contactName.setVisible(false);
+        add(contactName);
         
         addContactButton = new JButton("Add contact");
         add(addContactButton);
@@ -77,6 +86,7 @@ public class AddressBookGUI extends JFrame{
         
         addContact = new JButton("Add contact");
         add(addContact);
+        addContact.addActionListener(handlersDispatcher.createHandler("add"));
         addContact.setVisible(false);
         
         searchContact = new JButton("Search contact");
@@ -89,13 +99,36 @@ public class AddressBookGUI extends JFrame{
         deleteContact.setVisible(false);
     }
     
-    public void contactNotFound(){
+    public void contactNotFound() {
         JOptionPane.showMessageDialog(null, "The contact is not in your address book", "Contact not found", JOptionPane.ERROR_MESSAGE);
+        restoreInitialScreen();
+    }
+    
+    public void showContactInformation(String data) {
+        String contactInformation = "Your contact: " + data;
+        JOptionPane.showMessageDialog(null, contactInformation, "Contact found", JOptionPane.INFORMATION_MESSAGE);
+        restoreInitialScreen();
+    }
+    
+    public void alreadyExistingContact() {
+        JOptionPane.showMessageDialog(null, "The contact your are trying to add already exists in your address book", "Contact not added", JOptionPane.ERROR_MESSAGE);
+        restoreInitialScreen();
+    }
+    
+    public void contactCorrecltyAdded() {
+        JOptionPane.showMessageDialog(null, "Your contact has been correctly added to your addess book", "Contact added", JOptionPane.INFORMATION_MESSAGE);
+        restoreInitialScreen();
+    }
+    
+    private void restoreInitialScreen() {
         searchContact.setVisible(false);
+        deleteContact.setVisible(false);
+        instructionsField.setVisible(false);
+        contactName.setVisible(false);
+        addContact.setVisible(false);
         deleteContact.setVisible(false);
         addContactButton.setVisible(true);
         searchContactButton.setVisible(true);
         deleteContactButton.setVisible(true);
-        instructionsField.setVisible(false);
     }
 }
